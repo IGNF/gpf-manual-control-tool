@@ -114,6 +114,24 @@ function go () {
 
   const search = L.geoportalControl.SearchEngine({});
   mapGpp.addControl(search);
+
+  const lyrGppPlan = L.geoportalLayer.WMTS({
+    layer  : "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2",
+  },
+  {
+    opacity : 0.1
+  });
+  const lyrGpfPlan = L.geoportalLayer.WMTS({
+    layer  : "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2",
+  },
+  {
+    opacity : 0.1
+  });
+  gpfUrl = convertToGpfWmtsURL(lyrGppPlan._url);
+  lyrGpfPlan._url = gpfUrl;
+  lyrGppPlan.addTo(mapGpp);
+  lyrGpfPlan.addTo(mapGpf);
+  
   const lyrGpp = L.geoportalLayer.WMTS({
     layer  : "ORTHOIMAGERY.ORTHOPHOTOS"
   });
@@ -158,6 +176,8 @@ function go () {
     mapGpf.eachLayer(function (layer) {
       mapGpf.removeLayer(layer);
     });
+    lyrGppPlan.addTo(mapGpp);
+    lyrGpfPlan.addTo(mapGpf);
     lyrGpp.addTo(mapGpp);
     lyrGpf.addTo(mapGpf);
   });
