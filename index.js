@@ -131,7 +131,7 @@ function go () {
   lyrGpfPlan._url = gpfUrl;
   lyrGppPlan.addTo(mapGpp);
   lyrGpfPlan.addTo(mapGpf);
-  
+
   const lyrGpp = L.geoportalLayer.WMTS({
     layer  : "ORTHOIMAGERY.ORTHOPHOTOS"
   });
@@ -170,6 +170,13 @@ function go () {
       gpfUrl = convertToGpfWmsURL(lyrGpp._url);
     }
     lyrGpf._url = gpfUrl;
+    if ($textField.value.split("_")[0] == "ENR") {
+      var array = $textField.value.split("_");
+      array.shift();
+      array.splice(-4);
+      var newLayerName = array.join(".");
+      lyrGpf._wmtsParams.layer = newLayerName;
+    }
     mapGpp.eachLayer(function (layer) {
       mapGpp.removeLayer(layer);
     });
